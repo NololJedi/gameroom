@@ -3,7 +3,6 @@ package by.epam.gameroom.comparator;
 import by.epam.gameroom.entities.toys.Toy;
 import by.epam.gameroom.entities.toys.educational.RubikCube;
 import by.epam.gameroom.entities.toys.electronic.GameConsole;
-import by.epam.gameroom.entities.toys.electronic.GameConsoleType;
 import by.epam.gameroom.entities.toys.sport.JumpRope;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
