@@ -5,8 +5,8 @@ public class Lego extends EducationalToy {
     private final int countOfPeaces;
     private final int countOfToyMen;
 
-    public Lego(String nameOfSet, double price, double boxSize, int countOfToyMen, int countOfPeaces) {
-        super(nameOfSet, price, boxSize, EducationalToyType.CONSTRUCTOR);
+    public Lego(String name, double price, double size, int countOfToyMen, int countOfPeaces) {
+        super(name, price, size, EducationalToyType.CONSTRUCTOR);
         this.countOfToyMen = countOfToyMen;
         this.countOfPeaces = countOfPeaces;
     }

@@ -9,18 +9,11 @@ import org.junit.runner.RunWith;
 @RunWith(DataProviderRunner.class)
 public class LineParserTest {
 
-    private static LineParser lineParser;
-
-    @BeforeClass
-    public static void setLineParser() {
-        lineParser = new LineParser();
-    }
-
     @Test
     public void shouldDataParsingBeSuccessful() {
         String line = "type=JumpRope price=2.0 length=4";
         String[] expectedParsedData = {"type=JumpRope", "price=2.0", "length=4"};
-        String[] actualParsedData = lineParser.parseLine(line, LineParser.DATA_PARSER_INDICATOR);
+        String[] actualParsedData = LineParser.parseLine(line, LineParser.DATA_PARSER_INDICATOR);
 
         Assert.assertArrayEquals(expectedParsedData, actualParsedData);
     }
@@ -29,7 +22,7 @@ public class LineParserTest {
     public void shouldDataParsingBeNotSuccessful() {
         String line = "type=JumpRope price=2.0 length=4";
         String[] expectedParsedData = {"type=JumpRop price=2.0", "length=4"};
-        String[] actualParsedData = lineParser.parseLine(line, LineParser.DATA_PARSER_INDICATOR);
+        String[] actualParsedData = LineParser.parseLine(line, LineParser.DATA_PARSER_INDICATOR);
 
         Assert.assertNotEquals(expectedParsedData, actualParsedData);
     }
@@ -38,7 +31,7 @@ public class LineParserTest {
     public void shouldValueParsingBeSuccessful() {
         String value = "type=JumpRope";
         String[] expectedParsedValue = {"type", "JumpRope"};
-        String[] actualParsedValue = lineParser.parseLine(value, LineParser.VALUE_PARSER_INDICATOR);
+        String[] actualParsedValue = LineParser.parseLine(value, LineParser.VALUE_PARSER_INDICATOR);
 
         Assert.assertArrayEquals(expectedParsedValue, actualParsedValue);
     }
@@ -47,7 +40,7 @@ public class LineParserTest {
     public void shouldValueParsingBeNotSuccessful() {
         String value = "type=JumpRope";
         String[] expectedParsedValue = {"type=", "JumpRope"};
-        String[] actualParsedValue = lineParser.parseLine(value, LineParser.VALUE_PARSER_INDICATOR);
+        String[] actualParsedValue = LineParser.parseLine(value, LineParser.VALUE_PARSER_INDICATOR);
 
         Assert.assertNotEquals(expectedParsedValue, actualParsedValue);
     }
@@ -56,14 +49,14 @@ public class LineParserTest {
     public void shouldNullLineCauseException() {
         String nullLine = null;
 
-        lineParser.parseLine(nullLine, LineParser.DATA_PARSER_INDICATOR);
+        LineParser.parseLine(nullLine, LineParser.DATA_PARSER_INDICATOR);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldEmptyLineCauseException() {
         String emptyLine = "";
 
-        lineParser.parseLine(emptyLine, LineParser.DATA_PARSER_INDICATOR);
+        LineParser.parseLine(emptyLine, LineParser.DATA_PARSER_INDICATOR);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -71,7 +64,7 @@ public class LineParserTest {
         String nullParserIndicator = null;
         String line = "type=JumpRope price=2.0";
 
-        lineParser.parseLine(line, nullParserIndicator);
+        LineParser.parseLine(line, nullParserIndicator);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -79,7 +72,7 @@ public class LineParserTest {
         String emptyParserIndicator = "";
         String line = "type=JumpRope price=2.0";
 
-        lineParser.parseLine(line, emptyParserIndicator);
+        LineParser.parseLine(line, emptyParserIndicator);
     }
 
 }

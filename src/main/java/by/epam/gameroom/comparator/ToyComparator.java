@@ -31,8 +31,8 @@ public class ToyComparator implements Comparator<Toy> {
                 return sortingResult;
             }
             case SIZE: {
-                double firstToySize = first.getToySize();
-                double secondToySize = second.getToySize();
+                double firstToySize = first.getSize();
+                double secondToySize = second.getSize();
                 int sortingResult = (int) (firstToySize - secondToySize);
 
                 return sortingResult;

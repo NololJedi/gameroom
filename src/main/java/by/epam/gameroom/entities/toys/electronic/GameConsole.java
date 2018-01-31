@@ -10,8 +10,8 @@ public class GameConsole extends ElectronicToy {
 
     private final boolean isInternetConnectionAvailable;
 
-    public GameConsole(String modelName, double price, double size, boolean isInternetConnectionAvailable) {
-        super(modelName, price, AgeLimit.TEENAGER, size, AC_VOLTAGE, true);
+    public GameConsole(String name, double price, double size, boolean isInternetConnectionAvailable) {
+        super(name, price, AgeLimit.TEENAGER, size, AC_VOLTAGE, true);
         this.isInternetConnectionAvailable = isInternetConnectionAvailable;
     }
 

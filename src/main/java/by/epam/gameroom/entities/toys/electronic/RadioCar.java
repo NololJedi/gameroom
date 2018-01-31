@@ -9,8 +9,8 @@ public class RadioCar extends ElectronicToy {
     private final int countOfBatteries;
     private final int maxSpeed;
 
-    public RadioCar(String modelName, double price, double size, int countOfBatteries, int maxSpeed) {
-        super(modelName, price, PRE_TEEN, size, DC_VOLTAGE, false);
+    public RadioCar(String name, double price, double size, int countOfBatteries, int maxSpeed) {
+        super(name, price, PRE_TEEN, size, DC_VOLTAGE, false);
         this.countOfBatteries = countOfBatteries;
         this.maxSpeed = maxSpeed;
     }

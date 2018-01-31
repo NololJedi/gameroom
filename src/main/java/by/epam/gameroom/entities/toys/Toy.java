@@ -4,15 +4,15 @@ public abstract class Toy {
 
     private final String name;
     private final double price;
-    private final double toySize;
+    private final double size;
     private final AgeLimit ageLimit;
     private final ToyType toyType;
 
-    public Toy(String name, double price, AgeLimit ageLimit, double toySize, ToyType toyType) {
+    public Toy(String name, double price, AgeLimit ageLimit, double size, ToyType toyType) {
         this.name = name;
         this.price = price;
         this.ageLimit = ageLimit;
-        this.toySize = toySize;
+        this.size = size;
         this.toyType = toyType;
     }
 
@@ -28,8 +28,8 @@ public abstract class Toy {
         return ageLimit;
     }
 
-    public double getToySize() {
-        return toySize;
+    public double getSize() {
+        return size;
     }
 
     public ToyType getToyType() {
@@ -56,7 +56,7 @@ public abstract class Toy {
         if (ageLimit != toy.ageLimit) {
             return false;
         }
-        if (toySize != toy.toySize) {
+        if (size != toy.size) {
             return false;
         }
         if (toyType != toy.toyType) {
@@ -71,7 +71,7 @@ public abstract class Toy {
         int hash = (int) (31 * price);
         hash += name.hashCode();
         hash += ageLimit.hashCode();
-        hash += (int) (31 * toySize);
+        hash += (int) (31 * size);
         hash += toyType.hashCode();
 
         return hash;
@@ -80,7 +80,7 @@ public abstract class Toy {
     @Override
     public String toString() {
         String result = String.format("Toy name - %s, price - %.2f, age limit - %s, size - %.1f, type - %s.",
-                name, price, ageLimit.name(), toySize, toyType.name());
+                name, price, ageLimit.name(), size, toyType.name());
 
         return result;
     }

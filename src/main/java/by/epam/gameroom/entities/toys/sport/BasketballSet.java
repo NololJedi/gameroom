@@ -7,8 +7,8 @@ public class BasketballSet extends SportToy {
     private final int basketHeight;
     private final int ballDiameter;
 
-    public BasketballSet(String basketballSetName, double price, int ballDiameter, int basketHeight) {
-        super(basketballSetName, price, ballDiameter * basketHeight, BASKETBALL_REQUIRED_SPACE_TO_PLAY, true);
+    public BasketballSet(String name, double price, int ballDiameter, int basketHeight) {
+        super(name, price, ballDiameter * basketHeight, BASKETBALL_REQUIRED_SPACE_TO_PLAY, true);
         this.ballDiameter = ballDiameter;
         this.basketHeight = basketHeight;
     }

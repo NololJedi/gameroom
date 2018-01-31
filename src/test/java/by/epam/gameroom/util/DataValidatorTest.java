@@ -109,45 +109,4 @@ public class DataValidatorTest {
         };
     }
 
-    @Test
-    @UseDataProvider("validTypes")
-    public void shouldTypeValidationBeSuccessful(String toyType, boolean expectedResult) throws IncorrectValueException {
-        boolean actualResult = dataValidator.checkToyType(toyType);
-
-        Assert.assertEquals(expectedResult, actualResult);
-    }
-
-    @Test(expected = IncorrectValueException.class)
-    @UseDataProvider("notValidTypes")
-    public void shouldTypeValidationBeNotSuccessful(String toyType) throws IncorrectValueException {
-        dataValidator.checkToyType(toyType);
-    }
-
-    @Test
-    @UseDataProvider("validToyValues")
-    public void shouldToyValuesValidationBeSuccessful(String toyType, String line, boolean expectedResult) throws IncorrectValueException {
-        LineParser lineParser = new LineParser();
-        String typeValueIndex = "type=";
-        String clearedIndex = "";
-        String type = toyType.replaceAll(typeValueIndex, clearedIndex);
-        String[] parsedLine = lineParser.parseLine(line, LineParser.DATA_PARSER_INDICATOR);
-        boolean actualResult = dataValidator.checkToyValues(type, parsedLine);
-
-        Assert.assertEquals(expectedResult, actualResult);
-    }
-
-    @Test(expected = IncorrectValueException.class)
-    @UseDataProvider("notValidToyValues")
-    public void shouldToyValuesValidationBeNotSuccessful(String toyType, String line) throws IncorrectValueException {
-        LineParser lineParser = new LineParser();
-        String typeValueIndex = "type=";
-        String clearedIndex = "";
-        String type = toyType.replaceAll(typeValueIndex, clearedIndex);
-        String[] parsedLine = lineParser.parseLine(line, LineParser.DATA_PARSER_INDICATOR);
-
-        dataValidator.checkToyValues(type, parsedLine);
-    }
-
-
-
 }
