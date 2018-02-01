@@ -6,10 +6,10 @@ public class LineParser {
     public static final String VALUE_PARSER_INDICATOR = "=";
 
     public static String[] parseLine(String line, String parserIndicator) {
-        if (line == null || line.isEmpty()){
+        if (line == null || line.isEmpty()) {
             throw new IllegalArgumentException("Empty line to parse.");
         }
-        if (parserIndicator == null || parserIndicator.isEmpty()){
+        if (parserIndicator == null || parserIndicator.isEmpty()) {
             throw new IllegalArgumentException("Empty parser indicator.");
         }
 
