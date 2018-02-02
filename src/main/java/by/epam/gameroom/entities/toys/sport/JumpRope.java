@@ -2,6 +2,9 @@ package by.epam.gameroom.entities.toys.sport;
 
 public class JumpRope extends SportToy {
 
+    public final static String JUMPROPE_TYPE = "JumpRope";
+    public final static int JUMPROPE_VALID_VALUES_COUNT = 3;
+
     private static final String JUMP_ROPE_NAME = "Jumping rope";
     private static final int JUMP_ROPE_SIZE_INDEX = 2;
     private static final int JUMP_ROPE_SPACE_INDEX = 3;

@@ -4,6 +4,9 @@ import java.util.Objects;
 
 public class RubikCube extends EducationalToy {
 
+    public final static String RUBIKCUBE_TYPE = "RubikCube";
+    public final static int RUBIKCUBE_VALID_VALUES_COUNT = 3;
+
     private static final double RUBIK_CUBE_SIZE = 185.0;
     private static final String RUBIK_CUBE_NAME = "Rubik's cube";
 

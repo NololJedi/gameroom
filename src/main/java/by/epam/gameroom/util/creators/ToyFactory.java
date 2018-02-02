@@ -1,6 +1,11 @@
 package by.epam.gameroom.util.creators;
 
-import static by.epam.gameroom.util.data.DataValidator.*;
+import static by.epam.gameroom.entities.toys.educational.Lego.LEGO_TYPE;
+import static by.epam.gameroom.entities.toys.educational.RubikCube.RUBIKCUBE_TYPE;
+import static by.epam.gameroom.entities.toys.electronic.GameConsole.GAMECONSOLE_TYPE;
+import static by.epam.gameroom.entities.toys.electronic.RadioCar.RADIOCAR_TYPE;
+import static by.epam.gameroom.entities.toys.sport.BasketballSet.BASKETBALLSET_TYPE;
+import static by.epam.gameroom.entities.toys.sport.JumpRope.JUMPROPE_TYPE;
 
 public class ToyFactory {
 

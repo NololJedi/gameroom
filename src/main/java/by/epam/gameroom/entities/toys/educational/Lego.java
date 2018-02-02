@@ -2,6 +2,9 @@ package by.epam.gameroom.entities.toys.educational;
 
 public class Lego extends EducationalToy {
 
+    public final static String LEGO_TYPE = "Lego";
+    public final static int LEGO_VALID_VALUES_COUNT = 6;
+
     private final int countOfPeaces;
     private final int countOfToyMen;
 

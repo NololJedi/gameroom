@@ -2,6 +2,9 @@ package by.epam.gameroom.entities.toys.sport;
 
 public class BasketballSet extends SportToy {
 
+    public final static String BASKETBALLSET_TYPE = "BasketBallSet";
+    public final static int BASKETBALLSET__VALID_VALUES_COUNT = 5;
+
     private static final int BASKETBALL_REQUIRED_SPACE_TO_PLAY = 2500;
 
     private final int basketHeight;

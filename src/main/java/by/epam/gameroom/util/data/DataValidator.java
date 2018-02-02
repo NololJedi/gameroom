@@ -5,21 +5,20 @@ import by.epam.gameroom.util.LineParser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static by.epam.gameroom.entities.toys.educational.Lego.LEGO_TYPE;
+import static by.epam.gameroom.entities.toys.educational.Lego.LEGO_VALID_VALUES_COUNT;
+import static by.epam.gameroom.entities.toys.educational.RubikCube.RUBIKCUBE_TYPE;
+import static by.epam.gameroom.entities.toys.educational.RubikCube.RUBIKCUBE_VALID_VALUES_COUNT;
+import static by.epam.gameroom.entities.toys.electronic.GameConsole.GAMECONSOLE_TYPE;
+import static by.epam.gameroom.entities.toys.electronic.GameConsole.GAMECONSOLE_VALID_VALUES_COUNT;
+import static by.epam.gameroom.entities.toys.electronic.RadioCar.RADIOCAR_TYPE;
+import static by.epam.gameroom.entities.toys.electronic.RadioCar.RADIOCAR__VALID_VALUES_COUNT;
+import static by.epam.gameroom.entities.toys.sport.BasketballSet.BASKETBALLSET_TYPE;
+import static by.epam.gameroom.entities.toys.sport.BasketballSet.BASKETBALLSET__VALID_VALUES_COUNT;
+import static by.epam.gameroom.entities.toys.sport.JumpRope.JUMPROPE_TYPE;
+import static by.epam.gameroom.entities.toys.sport.JumpRope.JUMPROPE_VALID_VALUES_COUNT;
+
 public class DataValidator {
-
-    public final static String JUMPROPE_TYPE = "JumpRope";
-    public final static String LEGO_TYPE = "Lego";
-    public final static String GAMECONSOLE_TYPE = "GameConsole";
-    public final static String BASKETBALLSET_TYPE = "BasketBallSet";
-    public final static String RADIOCAR_TYPE = "RadioCar";
-    public final static String RUBIKCUBE_TYPE = "RubikCube";
-
-    private final static int RUBIKCUBE_VALID_VALUES_COUNT = 3;
-    private final static int JUMPROPE_VALID_VALUES_COUNT = 3;
-    private final static int BASKETBALLSET__VALID_VALUES_COUNT = 5;
-    private final static int GAMECONSOLE_VALID_VALUES_COUNT = 5;
-    private final static int RADIOCAR__VALID_VALUES_COUNT = 6;
-    private final static int LEGO_VALID_VALUES_COUNT = 6;
 
     private final static String NAME_VALUE_PATTERN_OF_VALIDATION = "\\w+_?\\w+";
     private final static String TYPE_VALUE_PATTERN_OF_VALIDATION = "JumpRope|Lego|GameConsole|BasketBallSet|RadioCar|RubikCube";
@@ -33,6 +32,19 @@ public class DataValidator {
     private final static String PRICE_VALUE_INDICATOR = "price";
     private final static String BOOLEAN_VALUE_INDICATOR = "is";
     private final static String INTEGER_VALUE_INDICATOR = "num";
+
+    public boolean checkValuesCount(String[] parsedValues, int typeValuesCount){
+        if (parsedValues == null || parsedValues.length == 0){
+            throw new IllegalArgumentException("Empty parsed values is empty.");
+        }
+        if (typeValuesCount == 0){
+            throw new IllegalArgumentException("Check input values count.");
+        }
+
+        int currentValueCount = parsedValues.length;
+
+        return typeValuesCount == currentValueCount;
+    }
 
     public boolean checkValue(String value) {
         if (value == null || value.isEmpty()) {
@@ -58,31 +70,6 @@ public class DataValidator {
         return matcher.matches();
     }
 
-    public boolean checkValues(String type, String[] values) {
-        if (type == null || type.isEmpty()) {
-            throw new IllegalArgumentException("Input type is empty");
-        }
-        if (values == null || values.length == 0) {
-            throw new IllegalArgumentException("Input values is empty");
-        }
-
-        int expectedCountOfValues = getCountOfValuesByType(type);
-        int actualCountOfValues = values.length;
-
-        if (actualCountOfValues != expectedCountOfValues) {
-            return false;
-        }
-
-        for (int arrayIndex = 0; arrayIndex < actualCountOfValues; arrayIndex++) {
-            boolean resultOfValidation = checkValue(values[arrayIndex]);
-            if (!resultOfValidation) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     private Pattern getPatterOfValidationByValueName(String valueName) {
         if (valueName == null || valueName.isEmpty()) {
             throw new IllegalArgumentException("Value name is empty.");
@@ -106,33 +93,6 @@ public class DataValidator {
         }
 
         return pattern;
-    }
-
-    private int getCountOfValuesByType(String type) {
-
-        switch (type) {
-            case JUMPROPE_TYPE: {
-                return JUMPROPE_VALID_VALUES_COUNT;
-            }
-            case LEGO_TYPE: {
-                return LEGO_VALID_VALUES_COUNT;
-            }
-            case GAMECONSOLE_TYPE: {
-                return GAMECONSOLE_VALID_VALUES_COUNT;
-            }
-            case BASKETBALLSET_TYPE: {
-                return BASKETBALLSET__VALID_VALUES_COUNT;
-            }
-            case RADIOCAR_TYPE: {
-                return RADIOCAR__VALID_VALUES_COUNT;
-            }
-            case RUBIKCUBE_TYPE: {
-                return RUBIKCUBE_VALID_VALUES_COUNT;
-            }
-            default: {
-                throw new IllegalArgumentException(String.format("No such type(%s) was found. Check the input parameter.", type));
-            }
-        }
     }
 
 }

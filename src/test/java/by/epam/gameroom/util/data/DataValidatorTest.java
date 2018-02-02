@@ -8,7 +8,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static by.epam.gameroom.util.data.DataValidator.*;
+import static by.epam.gameroom.entities.toys.educational.Lego.LEGO_VALID_VALUES_COUNT;
+import static by.epam.gameroom.entities.toys.educational.RubikCube.RUBIKCUBE_VALID_VALUES_COUNT;
+import static by.epam.gameroom.entities.toys.electronic.GameConsole.GAMECONSOLE_VALID_VALUES_COUNT;
+import static by.epam.gameroom.entities.toys.electronic.RadioCar.RADIOCAR__VALID_VALUES_COUNT;
+import static by.epam.gameroom.entities.toys.sport.BasketballSet.BASKETBALLSET__VALID_VALUES_COUNT;
+import static by.epam.gameroom.entities.toys.sport.JumpRope.JUMPROPE_VALID_VALUES_COUNT;
 
 @RunWith(DataProviderRunner.class)
 public class DataValidatorTest {
@@ -42,7 +47,7 @@ public class DataValidatorTest {
     }
 
     @DataProvider
-    public static Object[][] validValues() {
+    public static Object[][] validCount() {
         String[] jumpRope = {"type=JumpRope", "price=22.0", "numLength=4"};
         String[] lego = {"type=Lego", "name=Pirates_set", "price=22.0", "size=4.5", "numCountOfToyMen=25", "numCountOfPeaces=200"};
         String[] rubikCube = {"type=RubikCube", "price=22.0", "isAssembled=+"};
@@ -53,12 +58,12 @@ public class DataValidatorTest {
         boolean expectedResult = true;
 
         return new Object[][]{
-                {JUMPROPE_TYPE, jumpRope, expectedResult},
-                {LEGO_TYPE, lego, expectedResult},
-                {RUBIKCUBE_TYPE, rubikCube, expectedResult},
-                {GAMECONSOLE_TYPE, gameConsole, expectedResult},
-                {RADIOCAR_TYPE, radioCar, expectedResult},
-                {BASKETBALLSET_TYPE, basketBallSet, expectedResult}
+                {jumpRope, JUMPROPE_VALID_VALUES_COUNT, expectedResult},
+                {lego, LEGO_VALID_VALUES_COUNT, expectedResult},
+                {rubikCube, RUBIKCUBE_VALID_VALUES_COUNT, expectedResult},
+                {gameConsole, GAMECONSOLE_VALID_VALUES_COUNT, expectedResult},
+                {radioCar, RADIOCAR__VALID_VALUES_COUNT, expectedResult},
+                {basketBallSet, BASKETBALLSET__VALID_VALUES_COUNT, expectedResult}
         };
     }
 
@@ -84,23 +89,23 @@ public class DataValidatorTest {
     }
 
     @DataProvider
-    public static Object[][] notValidValues() {
-        String[] jumpRope = {"type=JumpRop", "price=22.0", "numLength=4"};
-        String[] lego = {"type=Lego", "namePirates_set", "price=22.0", "size=4.5", "numCountOfToyMen=25", "numCountOfPeaces=200"};
-        String[] rubikCube = {"type=RubikCube", "price=2z2.0", "isAssembled=+"};
-        String[] gameConsole = {"type=GameConsole", "name=Xbox360", "price=200.0", "size=50", "InternetAvailable=+"};
-        String[] radioCar = {"type=RadioCar", "name=Police_car", "price=10.0", "numCountOfBatteries=6", "numMaxSpeed=200"};
-        String[] basketBallSet = {"type=BasketBallSet", "name=Ghett!o_Wars", "price=45.0", "numBallDiameter=25", "numBasketHeight=200"};
+    public static Object[][] notValidCount() {
+        String[] jumpRope = {"type=JumpRope", "price=22.0"};
+        String[] lego = {"type=Lego", "price=22.0", "size=4.5", "numCountOfToyMen=25", "numCountOfPeaces=200"};
+        String[] rubikCube = {"price=22.0", "isAssembled=+"};
+        String[] gameConsole = {"type=GameConsole", "name=Xbox360", "price=200.0", "size=50"};
+        String[] radioCar = {"type=RadioCar", "price=10.0", "size=4.5", "numCountOfBatteries=6", "numMaxSpeed=200"};
+        String[] basketBallSet = {"type=BasketBallSet", "price=45.0", "numBallDiameter=25", "numBasketHeight=200"};
 
         boolean expectedResult = false;
 
         return new Object[][]{
-                {JUMPROPE_TYPE, jumpRope, expectedResult},
-                {LEGO_TYPE, lego, expectedResult},
-                {RUBIKCUBE_TYPE, rubikCube, expectedResult},
-                {GAMECONSOLE_TYPE, gameConsole, expectedResult},
-                {RADIOCAR_TYPE, radioCar, expectedResult},
-                {BASKETBALLSET_TYPE, basketBallSet, expectedResult}
+                {jumpRope, JUMPROPE_VALID_VALUES_COUNT, expectedResult},
+                {lego, LEGO_VALID_VALUES_COUNT, expectedResult},
+                {rubikCube, RUBIKCUBE_VALID_VALUES_COUNT, expectedResult},
+                {gameConsole, GAMECONSOLE_VALID_VALUES_COUNT, expectedResult},
+                {radioCar, RADIOCAR__VALID_VALUES_COUNT, expectedResult},
+                {basketBallSet, BASKETBALLSET__VALID_VALUES_COUNT, expectedResult}
         };
     }
 
@@ -118,17 +123,15 @@ public class DataValidatorTest {
 
     @DataProvider
     public static Object[][] emptyValues() {
-        String type = "type";
-        String typeNull = null;
-        String typeEmpty = "";
+        String[] valid = {"type=JumpRope", "price=22.0", "numLength=4"};
         String[] valuesNull = null;
         String[] valuesEmpty = {};
+        int incorrectCount = 0;
 
         return new Object[][]{
-                {typeNull, valuesEmpty},
-                {typeEmpty, valuesEmpty},
-                {type, valuesEmpty},
-                {type, valuesNull}
+                {valuesEmpty, JUMPROPE_VALID_VALUES_COUNT},
+                {valuesNull, JUMPROPE_VALID_VALUES_COUNT},
+                {valid, incorrectCount}
 
         };
     }
@@ -150,31 +153,31 @@ public class DataValidatorTest {
         Assert.assertEquals(expectedResult, actualResult);
     }
 
-    @Test
-    @UseDataProvider("validValues")
-    public void shouldResultOfValidationValuesBeSuccessful(String type, String[] values, boolean expectedResult) {
-        boolean actualResult = dataValidator.checkValues(type, values);
-
-        Assert.assertEquals(expectedResult, actualResult);
-    }
-
-    @Test
-    @UseDataProvider("notValidValues")
-    public void shouldResultOfValidationValuesBeNotSuccessful(String type, String[] values, boolean expectedResult) {
-        boolean actualResult = dataValidator.checkValues(type, values);
-
-        Assert.assertEquals(expectedResult, actualResult);
-    }
-
     @Test(expected = IllegalArgumentException.class)
     @UseDataProvider("emptyValue")
     public void shouldIncorrectValueCauseException(String value) {
         dataValidator.checkValue(value);
     }
 
+    @Test
+    @UseDataProvider("validCount")
+    public void shouldResultOfCountValidationBeSuccessful(String[] parsedValues, int constantsCount, boolean expectedResult) {
+        boolean actualResult = dataValidator.checkValuesCount(parsedValues, constantsCount);
+
+        Assert.assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    @UseDataProvider("notValidCount")
+    public void shouldResultOfCountValidationBeNotSuccessful(String[] parsedValues, int constantsCount, boolean expectedResult) {
+        boolean actualResult = dataValidator.checkValuesCount(parsedValues, constantsCount);
+
+        Assert.assertEquals(expectedResult, actualResult);
+    }
+
     @Test(expected = IllegalArgumentException.class)
     @UseDataProvider("emptyValues")
-    public void shouldIncorrectValuesCauseException(String type, String[] values) {
-        dataValidator.checkValues(type, values);
+    public void shouldIncorrectCountCauseException(String[] parsedValues, int count) {
+        dataValidator.checkValuesCount(parsedValues, count);
     }
 }

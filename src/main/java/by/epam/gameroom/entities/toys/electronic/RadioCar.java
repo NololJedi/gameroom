@@ -4,6 +4,9 @@ import static by.epam.gameroom.entities.toys.AgeLimit.PRE_TEEN;
 
 public class RadioCar extends ElectronicToy {
 
+    public final static String RADIOCAR_TYPE = "RadioCar";
+    public final static int RADIOCAR__VALID_VALUES_COUNT = 6;
+
     private static final int DC_VOLTAGE = 9;
 
     private final int countOfBatteries;
