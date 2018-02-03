@@ -1,5 +1,6 @@
 package by.epam.gameroom.util.data;
 
+import by.epam.gameroom.util.DataProviderSource;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
@@ -34,15 +35,13 @@ public class DataValidatorTest {
         String isAssembled = "isAssembled=+";
         String numMaxSpeed = "numMaxSpeed=50";
 
-        boolean expectedResult = true;
-
         return new Object[][]{
-                {name, expectedResult},
-                {type, expectedResult},
-                {price, expectedResult},
-                {size, expectedResult},
-                {numMaxSpeed, expectedResult},
-                {isAssembled, expectedResult},
+                {name, true},
+                {type, true},
+                {price, true},
+                {size, true},
+                {numMaxSpeed, true},
+                {isAssembled, true},
         };
     }
 
@@ -110,18 +109,6 @@ public class DataValidatorTest {
     }
 
     @DataProvider
-    public static Object[][] emptyValue() {
-        String type = null;
-        String name = "";
-
-        return new Object[][]{
-                {name},
-                {type},
-
-        };
-    }
-
-    @DataProvider
     public static Object[][] emptyValues() {
         String[] valid = {"type=JumpRope", "price=22.0", "numLength=4"};
         String[] valuesNull = null;
@@ -154,7 +141,7 @@ public class DataValidatorTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    @UseDataProvider("emptyValue")
+    @UseDataProvider(value = "incorrectInputParameter", location = DataProviderSource.class)
     public void shouldIncorrectValueCauseException(String value) {
         dataValidator.checkValue(value);
     }
@@ -180,4 +167,5 @@ public class DataValidatorTest {
     public void shouldIncorrectCountCauseException(String[] parsedValues, int count) {
         dataValidator.checkValuesCount(parsedValues, count);
     }
+
 }

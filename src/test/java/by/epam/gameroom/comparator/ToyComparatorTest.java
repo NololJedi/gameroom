@@ -15,19 +15,19 @@ import org.junit.runner.RunWith;
 @RunWith(DataProviderRunner.class)
 public class ToyComparatorTest {
 
-    private static ToyComparator toyComparatorNAME;
-    private static ToyComparator toyComparatorPRICE;
-    private static ToyComparator toyComparatorSIZE;
-    private static ToyComparator toyComparatorAGE;
-    private static ToyComparator toyComparatorTYPE;
+    private static ToyComparator nameComparator;
+    private static ToyComparator priceComparator;
+    private static ToyComparator sizeComparator;
+    private static ToyComparator ageLimitComparator;
+    private static ToyComparator toyTypeComparator;
 
     @BeforeClass
     public static void setToyComparator() {
-        toyComparatorNAME = new ToyComparator(ComparatorParameter.NAME);
-        toyComparatorPRICE = new ToyComparator(ComparatorParameter.PRICE);
-        toyComparatorSIZE = new ToyComparator(ComparatorParameter.SIZE);
-        toyComparatorAGE = new ToyComparator(ComparatorParameter.AGE_LIMIT);
-        toyComparatorTYPE = new ToyComparator(ComparatorParameter.TYPE);
+        nameComparator = new ToyComparator(ComparatorParameter.NAME);
+        priceComparator = new ToyComparator(ComparatorParameter.PRICE);
+        sizeComparator = new ToyComparator(ComparatorParameter.SIZE);
+        ageLimitComparator = new ToyComparator(ComparatorParameter.AGE_LIMIT);
+        toyTypeComparator = new ToyComparator(ComparatorParameter.TYPE);
     }
 
     @DataProvider
@@ -38,11 +38,11 @@ public class ToyComparatorTest {
         int sortingResult = 0;
 
         return new Object[][]{
-                {toyComparatorNAME, firstToy, secondToy, sortingResult},
-                {toyComparatorPRICE, secondToy, thirdToy, sortingResult},
-                {toyComparatorSIZE, secondToy, firstToy, sortingResult},
-                {toyComparatorAGE, firstToy, secondToy, sortingResult},
-                {toyComparatorTYPE, firstToy, thirdToy, sortingResult}
+                {nameComparator, firstToy, secondToy, sortingResult},
+                {priceComparator, secondToy, thirdToy, sortingResult},
+                {sizeComparator, secondToy, firstToy, sortingResult},
+                {ageLimitComparator, firstToy, secondToy, sortingResult},
+                {toyTypeComparator, firstToy, thirdToy, sortingResult}
 
         };
     }
@@ -54,11 +54,11 @@ public class ToyComparatorTest {
         JumpRope jumpRope = new JumpRope(2.0, 10);
         GameConsole gameConsole = new GameConsole("XBOX360", 20.0, 4.0, true);
         int validResult = 0;
-        int nameComparingResult = toyComparatorNAME.compare(jumpRope, firstRubikCube);
-        int priceComparingResult = toyComparatorPRICE.compare(secondRubikCube, jumpRope);
-        int sizeComparingResult = toyComparatorSIZE.compare(secondRubikCube, jumpRope);
-        int ageComparingResult = toyComparatorAGE.compare(gameConsole, secondRubikCube);
-        int typeComparingResult = toyComparatorTYPE.compare(firstRubikCube, jumpRope);
+        int nameComparingResult = nameComparator.compare(jumpRope, firstRubikCube);
+        int priceComparingResult = priceComparator.compare(secondRubikCube, jumpRope);
+        int sizeComparingResult = sizeComparator.compare(secondRubikCube, jumpRope);
+        int ageComparingResult = ageLimitComparator.compare(gameConsole, secondRubikCube);
+        int typeComparingResult = toyTypeComparator.compare(firstRubikCube, jumpRope);
 
         return new Object[][]{
                 {nameComparingResult, validResult},

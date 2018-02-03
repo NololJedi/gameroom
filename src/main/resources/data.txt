@@ -1,3 +1,15 @@
-type=JumRope price=2.0 length=5
-type=RadioCar name=Police_car price=25.0 size=30 countOfBatteries=6 maxSpeed=50
-type=RubikCube price=10.0 isAssembled=1
+type=BasketBallSet name=Ghetto_Wars price=45.0 numBallDiameter=25 numBasketHeight=200
+type=BasketBallSet name=Bad_boy price=60.0 numBallDiameter=10 numBasketHeight=220
+type=JumpRope price=20.x5 numLength=2
+type=GameConsole name=Xbox360 price=45.0 size=25.0 isInternetAvailable=+
+type=GameConsole name=Dendi price=60.0 size=10.0 isInternetAvailable=-
+type=JumpRope price=20.5 numLength=2
+type=JumpRope price=22.5 numLength=3
+type=Lego name=Pirates price=45.0 size=25.0 numCountOfToyMen=20 numCountOfPeaces=2000
+type=Lego name=Space_Wars price=55.0 size=200.0 numCountOfToyMen=200 numCountOfPeaces=20000
+type=RadioCar name=Police_Car price=45.0 size=25.0 numCountOfBatteries=2 numMaxSpeed=50
+type=GameConsole name=Dendi price=60.0 size=10.0
+type=RadioCar name=Robocop_Car price=60.0 size=10.5 numCountOfBatteries=6 numMaxSpeed=60
+type=RubikCube price=20.5 isAssembled=+
+type=RubikCube price=-20.5 isAssembled=+
+type=RubikCube price=25.5 isAssembled=+

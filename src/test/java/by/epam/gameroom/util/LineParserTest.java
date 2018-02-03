@@ -1,6 +1,7 @@
 package by.epam.gameroom.util;
 
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,26 +53,17 @@ public class LineParserTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldEmptyLineCauseException() {
-        String emptyLine = "";
-
-        LineParser.parseLine(emptyLine, LineParser.DATA_PARSER_INDICATOR);
+    @UseDataProvider(value = "incorrectInputParameter", location = DataProviderSource.class)
+    public void shouldIncorrectLineCauseException(String line) {
+        LineParser.parseLine(line, LineParser.DATA_PARSER_INDICATOR);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldNullParserIndicatorCauseException() {
-        String nullParserIndicator = null;
+    @UseDataProvider(value = "incorrectInputParameter", location = DataProviderSource.class)
+    public void shouldIncorrectParserIndicatorCauseException(String parserIndicator) {
         String line = "type=JumpRope price=2.0";
 
-        LineParser.parseLine(line, nullParserIndicator);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void shouldEmptyParserIndicatorCauseException() {
-        String emptyParserIndicator = "";
-        String line = "type=JumpRope price=2.0";
-
-        LineParser.parseLine(line, emptyParserIndicator);
+        LineParser.parseLine(line, parserIndicator);
     }
 
 }

@@ -1,8 +1,8 @@
-package by.epam.gameroom.util.creators;
+package by.epam.gameroom.util.builders;
 
 import by.epam.gameroom.entities.toys.Toy;
 
-public interface ToyCreator {
+public interface ToyBuilder {
 
     Toy createToy(String[] parameters);
 

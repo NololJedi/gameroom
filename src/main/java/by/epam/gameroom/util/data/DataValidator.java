@@ -5,24 +5,11 @@ import by.epam.gameroom.util.LineParser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static by.epam.gameroom.entities.toys.educational.Lego.LEGO_TYPE;
-import static by.epam.gameroom.entities.toys.educational.Lego.LEGO_VALID_VALUES_COUNT;
-import static by.epam.gameroom.entities.toys.educational.RubikCube.RUBIKCUBE_TYPE;
-import static by.epam.gameroom.entities.toys.educational.RubikCube.RUBIKCUBE_VALID_VALUES_COUNT;
-import static by.epam.gameroom.entities.toys.electronic.GameConsole.GAMECONSOLE_TYPE;
-import static by.epam.gameroom.entities.toys.electronic.GameConsole.GAMECONSOLE_VALID_VALUES_COUNT;
-import static by.epam.gameroom.entities.toys.electronic.RadioCar.RADIOCAR_TYPE;
-import static by.epam.gameroom.entities.toys.electronic.RadioCar.RADIOCAR__VALID_VALUES_COUNT;
-import static by.epam.gameroom.entities.toys.sport.BasketballSet.BASKETBALLSET_TYPE;
-import static by.epam.gameroom.entities.toys.sport.BasketballSet.BASKETBALLSET__VALID_VALUES_COUNT;
-import static by.epam.gameroom.entities.toys.sport.JumpRope.JUMPROPE_TYPE;
-import static by.epam.gameroom.entities.toys.sport.JumpRope.JUMPROPE_VALID_VALUES_COUNT;
-
 public class DataValidator {
 
     private final static String NAME_VALUE_PATTERN_OF_VALIDATION = "\\w+_?\\w+";
     private final static String TYPE_VALUE_PATTERN_OF_VALIDATION = "JumpRope|Lego|GameConsole|BasketBallSet|RadioCar|RubikCube";
-    private final static String DOUBLE_VALUE_PATTERN_OF_VALIDATION = "\\d+\\.?\\d+";
+    private final static String DOUBLE_VALUE_PATTERN_OF_VALIDATION = "^\\d+\\.{1}\\d+$";
     private final static String INTEGER_VALUE_PATTERN_OF_VALIDATION = "^\\d+";
     private final static String BOOLEAN_VALUE_PATTERN_OF_VALIDATION = "[-]|[+]";
 
@@ -33,11 +20,14 @@ public class DataValidator {
     private final static String BOOLEAN_VALUE_INDICATOR = "is";
     private final static String INTEGER_VALUE_INDICATOR = "num";
 
-    public boolean checkValuesCount(String[] parsedValues, int typeValuesCount){
-        if (parsedValues == null || parsedValues.length == 0){
+    private final static int NAME_PARAMETER_INDEX = 0;
+    private final static int VALUE_PARAMETER_INDEX = 1;
+
+    public boolean checkValuesCount(String[] parsedValues, int typeValuesCount) {
+        if (parsedValues == null || parsedValues.length == 0) {
             throw new IllegalArgumentException("Empty parsed values is empty.");
         }
-        if (typeValuesCount == 0){
+        if (typeValuesCount == 0) {
             throw new IllegalArgumentException("Check input values count.");
         }
 
@@ -57,8 +47,8 @@ public class DataValidator {
             return false;
         }
 
-        String valueName = parsedValue[0];
-        String valueParameter = parsedValue[1];
+        String valueName = parsedValue[NAME_PARAMETER_INDEX];
+        String valueParameter = parsedValue[VALUE_PARAMETER_INDEX];
         Pattern pattern = getPatterOfValidationByValueName(valueName);
 
         if (pattern == null) {
@@ -68,6 +58,22 @@ public class DataValidator {
         Matcher matcher = pattern.matcher(valueParameter);
 
         return matcher.matches();
+    }
+
+    public boolean checkValues(String[] parsedValues) {
+        if (parsedValues == null || parsedValues.length == 0) {
+            throw new IllegalArgumentException("Empty parsed values is empty.");
+        }
+
+        for (String parsedValue : parsedValues) {
+            boolean isValuesValid = checkValue(parsedValue);
+
+            if (!isValuesValid) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private Pattern getPatterOfValidationByValueName(String valueName) {

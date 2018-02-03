@@ -61,7 +61,7 @@ public class GameConsole extends ElectronicToy {
             internetConnection = "No";
         }
 
-        String result = String.format("%s Can connect to Internet - %s.", internetConnection);
+        String result = String.format("%s Can connect to Internet - %s.",super.toString(), internetConnection);
 
         return result;
     }
