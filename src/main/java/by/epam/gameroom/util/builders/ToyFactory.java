@@ -1,13 +1,13 @@
 package by.epam.gameroom.util.builders;
 
-import static by.epam.gameroom.entities.toys.educational.Lego.LEGO_TYPE;
-import static by.epam.gameroom.entities.toys.educational.RubikCube.RUBIKCUBE_TYPE;
-import static by.epam.gameroom.entities.toys.electronic.GameConsole.GAMECONSOLE_TYPE;
-import static by.epam.gameroom.entities.toys.electronic.RadioCar.RADIOCAR_TYPE;
-import static by.epam.gameroom.entities.toys.sport.BasketballSet.BASKETBALLSET_TYPE;
-import static by.epam.gameroom.entities.toys.sport.JumpRope.JUMPROPE_TYPE;
-
 public class ToyFactory {
+
+    private final static String LEGO_TYPE = "Lego";
+    private final static String RUBIK_CUBE_TYPE = "RubikCube";
+    private final static String GAME_CONSOLE_TYPE = "GameConsole";
+    private final static String RADIO_CAR_TYPE = "RadioCar";
+    private final static String BASKET_BALL_SET_TYPE = "BasketBallSet";
+    private final static String JUMP_ROPE_TYPE = "JumpRope";
 
     public ToyBuilder getToyBuilder(String type) {
         if (type == null || type.isEmpty()) {
@@ -15,22 +15,22 @@ public class ToyFactory {
         }
 
         switch (type) {
-            case JUMPROPE_TYPE: {
+            case JUMP_ROPE_TYPE: {
                 return new JumpRopeBuilder();
             }
             case LEGO_TYPE: {
                 return new LegoBuilder();
             }
-            case GAMECONSOLE_TYPE: {
+            case GAME_CONSOLE_TYPE: {
                 return new GameConsoleBuilder();
             }
-            case BASKETBALLSET_TYPE: {
+            case BASKET_BALL_SET_TYPE: {
                 return new BasketBallSetBuilder();
             }
-            case RADIOCAR_TYPE: {
+            case RADIO_CAR_TYPE: {
                 return new RadioCarBuilder();
             }
-            case RUBIKCUBE_TYPE: {
+            case RUBIK_CUBE_TYPE: {
                 return new RubikCubeBuilder();
             }
             default: {

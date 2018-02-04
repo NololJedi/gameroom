@@ -31,7 +31,7 @@ public class LineParserTest {
     public void shouldValueParsingBeSuccessful() {
         String value = "type=JumpRope";
         String[] expectedParsedValue = {"type", "JumpRope"};
-        String[] actualParsedValue = LineParser.parseLine(value, LineParser.VALUE_PARSER_INDICATOR);
+        String[] actualParsedValue = LineParser.parseLine(value, LineParser.PARAMETER_PARSER_INDICATOR);
 
         Assert.assertArrayEquals(expectedParsedValue, actualParsedValue);
     }
@@ -40,7 +40,7 @@ public class LineParserTest {
     public void shouldValueParsingBeNotSuccessful() {
         String value = "type=JumpRope";
         String[] expectedParsedValue = {"type=", "JumpRope"};
-        String[] actualParsedValue = LineParser.parseLine(value, LineParser.VALUE_PARSER_INDICATOR);
+        String[] actualParsedValue = LineParser.parseLine(value, LineParser.PARAMETER_PARSER_INDICATOR);
 
         Assert.assertNotEquals(expectedParsedValue, actualParsedValue);
     }

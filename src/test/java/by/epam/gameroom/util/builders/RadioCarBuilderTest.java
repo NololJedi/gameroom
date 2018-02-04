@@ -1,6 +1,7 @@
 package by.epam.gameroom.util.builders;
 
 import by.epam.gameroom.entities.toys.electronic.RadioCar;
+import by.epam.gameroom.exceptions.IncorrectValueException;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
@@ -54,60 +55,29 @@ public class RadioCarBuilderTest {
     }
 
     @DataProvider
-    public static Object[][] incorrectValuesIllegalArgument() {
-        String[] notValidValuesFirst = {"type=RadioCar", "name=Police_Car", "price==45.0", "size=25.0",
+    public static Object[][] exceptionResults() {
+        String[] notValidParametersFirst = {"type=RadioCar", "name=Police Car", "price=45.0", "size=25.0",
                 "numCountOfBatteries=2", "numMaxSpeed=50"};
-        String[] notValidValuesSecond = {"type=RadioCar", "size=10.5", "numCountOfBatteries=6", "numMaxSpeed=60"};
-        String[] notValidValuesThird = {"type=RadioCar", "name=BMW", "price=45.0", "size=15.0",
-                "numCountOfBatteries=10", "numMaxSpeed=100", "numCountOfPassengers=5"};
-        String[] nullArray = null;
-        String[] emptyArray = {};
-
-        return new Object[][]{
-                {notValidValuesFirst},
-                {notValidValuesSecond},
-                {notValidValuesThird},
-                {nullArray},
-                {emptyArray}
-        };
-    }
-
-    @DataProvider
-    public static Object[][] incorrectValuesArrayIndexOutOfBound() {
-        String[] notValidValuesFirst = {"type=RadioCar", "nameBMW", "price=45.0", "size=25.0",
+        String[] notValidParametersSecond = {"type=RadioCar", "name=Police_Car", "price=-45.0", "size=25.0",
                 "numCountOfBatteries=2", "numMaxSpeed=50"};
-        String[] notValidValuesSecond = {"type=RadioCar", "Robocop_Car", "price=60.0", "size=10.5",
-                "numCountOfBatteries=6", "numMaxSpeed=60"};
-        String[] notValidValuesThird = {"type=RadioCar", "name=BMW", "price=45.0", "size=15.0",
-                "numCountOfBatteries=10", "numMaxSpeed="};
-
-        return new Object[][]{
-                {notValidValuesFirst},
-                {notValidValuesSecond},
-                {notValidValuesThird}
-        };
-    }
-
-    @DataProvider
-    public static Object[][] incorrectValuesNumberFormat() {
-        String[] notValidValuesFirst = {"type=RadioCar", "name=Police_Car", "price=45,0", "size=25.0",
+        String[] notValidParametersThird = {"type=RadioCar", "name=Police_Car", "price=45.0", "size=-25.0",
                 "numCountOfBatteries=2", "numMaxSpeed=50"};
-        String[] notValidValuesSecond = {"type=RadioCar", "name=Robocop_Car", "price=60.0Z", "size=10.5",
-                "numCountOfBatteries=6", "numMaxSpeed=60"};
-        String[] notValidValuesThird = {"type=RadioCar", "name=BMW", "price=45.0", "size=15..0",
-                "numCountOfBatteries=10s", "numMaxSpeed=10_0"};
-
-
+        String[] notValidParametersFourth = {"type=RadioCar", "name=Police_Car", "price=45.0", "size=25.0",
+                "numCountOfBatteries=2!", "numMaxSpeed=50"};
+        String[] notValidParameterFive = {"type=RadioCar", "name=Police_Car", "price=45.0", "size=25.0",
+                "numCountOfBatteries=2", "numMaxSpeed=50,00"};
         return new Object[][]{
-                {notValidValuesFirst},
-                {notValidValuesSecond},
-                {notValidValuesThird}
+                {notValidParametersFirst},
+                {notValidParametersSecond},
+                {notValidParametersThird},
+                {notValidParametersFourth},
+                {notValidParameterFive}
         };
     }
 
     @Test
     @UseDataProvider("validResults")
-    public void shouldBuiltObjectBeCorrect(String[] values, RadioCar expectedToy) {
+    public void shouldBuiltObjectBeCorrect(String[] values, RadioCar expectedToy) throws IncorrectValueException {
         RadioCar actualToy = RADIO_CAR_BUILDER.createToy(values);
 
         Assert.assertEquals(expectedToy, actualToy);
@@ -115,28 +85,23 @@ public class RadioCarBuilderTest {
 
     @Test
     @UseDataProvider("notValidResults")
-    public void shouldBuiltObjectBeNotSimilar(String[] values, RadioCar expectedToy) {
+    public void shouldBuiltObjectBeNotSimilar(String[] values, RadioCar expectedToy) throws IncorrectValueException {
         RadioCar actualToy = RADIO_CAR_BUILDER.createToy(values);
 
         Assert.assertNotEquals(expectedToy, actualToy);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    @UseDataProvider("incorrectValuesIllegalArgument")
-    public void shouldIncorrectValuesCauseIllegalArgumentException(String[] values) {
-        RADIO_CAR_BUILDER.createToy(values);
+    public void shouldIncorrectValueCauseIllegalArgumentException() throws IncorrectValueException {
+        String[] nullArray = null;
+
+        RADIO_CAR_BUILDER.createToy(nullArray);
     }
 
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
-    @UseDataProvider("incorrectValuesArrayIndexOutOfBound")
-    public void shouldIncorrectValuesCauseArrayIndexOutOfBoundsException(String[] values) {
-        RADIO_CAR_BUILDER.createToy(values);
-    }
-
-    @Test(expected = NumberFormatException.class)
-    @UseDataProvider("incorrectValuesNumberFormat")
-    public void shouldIncorrectValuesCauseIncorrectValuesNumberFormatException(String[] values) {
-        RADIO_CAR_BUILDER.createToy(values);
+    @Test(expected = IncorrectValueException.class)
+    @UseDataProvider("exceptionResults")
+    public void shouldIncorrectParametersCauseIncorrectArgumentException(String[] parameters) throws IncorrectValueException {
+        RADIO_CAR_BUILDER.createToy(parameters);
     }
 
 }

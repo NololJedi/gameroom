@@ -24,10 +24,12 @@ public class DataFileLoader {
                 dataFromFile = dataFromFile.trim();
                 data.add(dataFromFile);
             }
+
+            return data;
+
         } catch (IOException exception) {
-            throw new DataLoadException(exception);
+            throw new DataLoadException(String.format("Can't load data from file - %s.",fileName),exception);
         }
-        return data;
     }
 
 }

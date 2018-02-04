@@ -17,14 +17,6 @@ public class SportToy extends Toy {
         this.isMultiPlaying = isMultiPlaying;
     }
 
-    public int getRequiredSpaceToPlay() {
-        return requiredSpaceToPlay;
-    }
-
-    public boolean isMultiPlaying() {
-        return isMultiPlaying;
-    }
-
     @Override
     public boolean equals(Object object) {
         if (this == object) {

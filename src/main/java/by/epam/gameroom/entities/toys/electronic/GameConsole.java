@@ -1,13 +1,11 @@
 package by.epam.gameroom.entities.toys.electronic;
 
 import by.epam.gameroom.entities.toys.AgeLimit;
+import by.epam.gameroom.run.GameRoomRunner;
 
 import java.util.Objects;
 
 public class GameConsole extends ElectronicToy {
-
-    public final static String GAMECONSOLE_TYPE = "GameConsole";
-    public final static int GAMECONSOLE_VALID_VALUES_COUNT = 5;
 
     private static final int AC_VOLTAGE = 220;
 
@@ -16,10 +14,6 @@ public class GameConsole extends ElectronicToy {
     public GameConsole(String name, double price, double size, boolean isInternetConnectionAvailable) {
         super(name, price, AgeLimit.TEENAGER, size, AC_VOLTAGE, true);
         this.isInternetConnectionAvailable = isInternetConnectionAvailable;
-    }
-
-    public boolean isInternetConnectionAvailable() {
-        return isInternetConnectionAvailable;
     }
 
     @Override
@@ -53,15 +47,8 @@ public class GameConsole extends ElectronicToy {
 
     @Override
     public String toString() {
-        String internetConnection;
-
-        if (isInternetConnectionAvailable) {
-            internetConnection = "Yes";
-        } else {
-            internetConnection = "No";
-        }
-
-        String result = String.format("%s Can connect to Internet - %s.",super.toString(), internetConnection);
+        String internetConnection = GameRoomRunner.booleanToString(isInternetConnectionAvailable);
+        String result = String.format("%s Can connect to Internet - %s.", super.toString(), internetConnection);
 
         return result;
     }

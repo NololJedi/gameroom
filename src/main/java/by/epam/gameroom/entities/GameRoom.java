@@ -10,7 +10,7 @@ public class GameRoom {
     private final double area;
     private final String name;
 
-    public GameRoom(List<Toy> toys, int area, String name) {
+    public GameRoom(List<Toy> toys, double area, String name) {
         this.toys = toys;
         this.area = area;
         this.name = name;
@@ -18,10 +18,6 @@ public class GameRoom {
 
     public List<Toy> getToys() {
         return toys;
-    }
-
-    public double getArea() {
-        return area;
     }
 
     public String getName() {
@@ -77,7 +73,7 @@ public class GameRoom {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(String.format("Game room : %s. ", name));
-        stringBuilder.append(String.format("Area = %d. ", area));
+        stringBuilder.append(String.format("Area = %f. ", area));
         stringBuilder.append("Toys :");
         for (Toy toy : toys) {
             stringBuilder.append(" " + toy.toString());

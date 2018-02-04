@@ -17,14 +17,6 @@ public class ElectronicToy extends Toy {
         this.isPowerSocketNeeded = isPowerSocketNeeded;
     }
 
-    public int getOperatingVoltage() {
-        return operatingVoltage;
-    }
-
-    public boolean isPowerSocketNeeded() {
-        return isPowerSocketNeeded;
-    }
-
     @Override
     public boolean equals(Object object) {
         if (this == object) {

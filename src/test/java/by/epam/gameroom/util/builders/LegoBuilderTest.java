@@ -1,6 +1,7 @@
 package by.epam.gameroom.util.builders;
 
 import by.epam.gameroom.entities.toys.educational.Lego;
+import by.epam.gameroom.exceptions.IncorrectValueException;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
@@ -54,60 +55,30 @@ public class LegoBuilderTest {
     }
 
     @DataProvider
-    public static Object[][] incorrectValuesIllegalArgument() {
-        String[] notValidValuesFirst = {"type=Lego", "size=25.0",
-                "numCountOfToyMen=20", "numCountOfPeaces2000"};
-        String[] notValidValuesSecond = {"type=Lego", "price=55.0", "size=200.0",
-                "numCountOfToyMen=200", "numCountOfPeaces=20000"};
-        String[] notValidValuesThird = {"type=Lego", "", "price=5.0", "size=10.0",
-                "numCountOfToyMen=5", "numCountOfPeaces=200"};
-        String[] nullArray = null;
-        String[] emptyArray = {};
-
-        return new Object[][]{
-                {notValidValuesFirst},
-                {notValidValuesSecond},
-                {notValidValuesThird},
-                {nullArray},
-                {emptyArray}
-        };
-    }
-
-    @DataProvider
-    public static Object[][] incorrectValuesArrayIndexOutOfBound() {
-        String[] notValidValuesFirst = {"type=Lego", "name", "price=45.0", "size=25.0",
-                "numCountOfToyMen=20", ""};
-        String[] notValidValuesSecond = {"type=Lego", "name=Space_Wars", "price=55.0", "size=200.0",
-                "numCountOfToyMen=200", "20000"};
-        String[] notValidValuesThird = {"type=Lego", "name=", "price=5.0", "size=10.0",
-                "numCountOfToyMen=5", "numCountOfPeaces=200"};
-
-        return new Object[][]{
-                {notValidValuesFirst},
-                {notValidValuesSecond},
-                {notValidValuesThird}
-        };
-    }
-
-    @DataProvider
-    public static Object[][] incorrectValuesNumberFormat() {
-        String[] notValidValuesFirst = {"type=Lego", "name=Pirates", "price=45.0", "size=25.s0",
+    public static Object[][] exceptionResults() {
+        String[] notValidParametersFirst = {"type=Lego", "name=Pirates!", "price=45.0", "size=25.0",
                 "numCountOfToyMen=20", "numCountOfPeaces=2000"};
-        String[] notValidValuesSecond = {"type=Lego", "name=Space_Wars", "price=55.0", "size=2as",
-                "numCountOfToyMen=200", "numCountOfPeaces=20000"};
-        String[] notValidValuesThird = {"type=Lego", "name=Home", "price=5.0", "size=10.0",
-                "numCountOfToyMen=5", "numCountOfPeaces=20ds0"};
+        String[] notValidParametersSecond = {"type=Lego", "name=Pirates", "price=-45.0", "size=25.0",
+                "numCountOfToyMen=20", "numCountOfPeaces=2000"};
+        String[] notValidParametersThird = {"type=Lego", "name=Pirates", "price=45.0", "size=25..0",
+                "numCountOfToyMen=20", "numCountOfPeaces=2000"};
+        String[] notValidParametersFourth = {"type=Lego", "name=Pirates", "price=45.0", "size=25.0",
+                "numCountOfToyMen=-20", "numCountOfPeaces=2000"};
+        String[] notValidParametersFive = {"type=Lego", "name=Pirates", "price=45.0", "size=25.0",
+                "numCountOfToyMen=-20", "numCountOfPeaces=2000!"};
 
         return new Object[][]{
-                {notValidValuesFirst},
-                {notValidValuesSecond},
-                {notValidValuesThird}
+                {notValidParametersFirst},
+                {notValidParametersSecond},
+                {notValidParametersThird},
+                {notValidParametersFourth},
+                {notValidParametersFive}
         };
     }
 
     @Test
     @UseDataProvider("validResults")
-    public void shouldBuiltObjectBeCorrect(String[] values, Lego expectedToy) {
+    public void shouldBuiltObjectBeCorrect(String[] values, Lego expectedToy) throws IncorrectValueException {
         Lego actualToy = LEGO_BUILDER.createToy(values);
 
         Assert.assertEquals(expectedToy, actualToy);
@@ -115,28 +86,23 @@ public class LegoBuilderTest {
 
     @Test
     @UseDataProvider("notValidResults")
-    public void shouldBuiltObjectBeNotSimilar(String[] values, Lego expectedToy) {
+    public void shouldBuiltObjectBeNotSimilar(String[] values, Lego expectedToy) throws IncorrectValueException {
         Lego actualToy = LEGO_BUILDER.createToy(values);
 
         Assert.assertNotEquals(expectedToy, actualToy);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    @UseDataProvider("incorrectValuesIllegalArgument")
-    public void shouldIncorrectValuesCauseIllegalArgumentException(String[] values) {
-        LEGO_BUILDER.createToy(values);
+    public void shouldIncorrectValueCauseIllegalArgumentException() throws IncorrectValueException {
+        String[] nullArray = null;
+
+        LEGO_BUILDER.createToy(nullArray);
     }
 
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
-    @UseDataProvider("incorrectValuesArrayIndexOutOfBound")
-    public void shouldIncorrectValuesCauseArrayIndexOutOfBoundsException(String[] values) {
-        LEGO_BUILDER.createToy(values);
-    }
-
-    @Test(expected = NumberFormatException.class)
-    @UseDataProvider("incorrectValuesNumberFormat")
-    public void shouldIncorrectValuesCauseIncorrectValuesNumberFormatException(String[] values) {
-        LEGO_BUILDER.createToy(values);
+    @Test(expected = IncorrectValueException.class)
+    @UseDataProvider("exceptionResults")
+    public void shouldIncorrectParametersCauseIncorrectArgumentException(String[] parameters) throws IncorrectValueException {
+        LEGO_BUILDER.createToy(parameters);
     }
 
 }

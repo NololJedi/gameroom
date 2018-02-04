@@ -13,10 +13,6 @@ public abstract class EducationalToy extends Toy {
         this.educationalToyType = educationalToyType;
     }
 
-    public EducationalToyType getEducationalToyType() {
-        return educationalToyType;
-    }
-
     @Override
     public boolean equals(Object object) {
         if (this == object) {

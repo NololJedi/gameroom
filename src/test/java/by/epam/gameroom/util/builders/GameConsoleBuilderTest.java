@@ -1,6 +1,7 @@
 package by.epam.gameroom.util.builders;
 
 import by.epam.gameroom.entities.toys.electronic.GameConsole;
+import by.epam.gameroom.exceptions.IncorrectValueException;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
@@ -48,51 +49,21 @@ public class GameConsoleBuilderTest {
     }
 
     @DataProvider
-    public static Object[][] incorrectValuesIllegalArgument() {
-        String[] notValidValuesFirst = {"name=Xbox360", "price=45.0", "size=25.0", "isInternetAvailable=+"};
-        String[] notValidValuesSecond = {"type=GameConsole", "name=Dendi", "price=60.0", "size=10.0"};
-        String[] notValidValuesThird = {"type=GameConsole", "name=PlayStation4", "size=15.0", "isInternetAvailable=+"};
-        String[] nullArray = null;
-        String[] emptyArray = {};
+    public static Object[][] exceptionResults() {
+        String[] notValidParametersFirst = {"type=GameConsole", "name=Xbox!360", "price=45.0", "size=25.0", "isInternetAvailable=+"};
+        String[] notValidParametersSecond = {"type=GameConsole", "name=Xbox360", "price=-45.0", "size=25.0", "isInternetAvailable=+"};
+        String[] notValidParametersThird = {"type=GameConsole", "name=Xbox360", "price=45.0", "size=25.0", "isInternetAvailable=false"};
 
         return new Object[][]{
-                {notValidValuesFirst},
-                {notValidValuesSecond},
-                {notValidValuesThird},
-                {nullArray},
-                {emptyArray}
-        };
-    }
-
-    @DataProvider
-    public static Object[][] incorrectValuesArrayIndexOutOfBound() {
-        String[] notValidValuesFirst = {"type=GameConsole", "nameXbox360", "price=45.0", "size=25.0", "isInternetAvailable=+"};
-        String[] notValidValuesSecond = {"type=GameConsole", "name=Dendi", "price60.0", "size=10.0", "isInternetAvailable=-"};
-        String[] notValidValuesThird = {"type=GameConsole", "name=PlayStation4", "price=45.0", "s15.0", "isInternetAvailable=+"};
-
-        return new Object[][]{
-                {notValidValuesFirst},
-                {notValidValuesSecond},
-                {notValidValuesThird}
-        };
-    }
-
-    @DataProvider
-    public static Object[][] incorrectValuesNumberFormat() {
-        String[] notValidValuesFirst = {"type=GameConsole", "name=Xbox360", "price=45.z0", "size=25.0", "isInternetAvailable=+"};
-        String[] notValidValuesSecond = {"type=GameConsole", "name=Dendi", "price=O", "size=10.0", "isInternetAvailable=-"};
-        String[] notValidValuesThird = {"type=GameConsole", "name=PlayStation4", "price=45.0", "size=15.0A", "isInternetAvailable=+"};
-
-        return new Object[][]{
-                {notValidValuesFirst},
-                {notValidValuesSecond},
-                {notValidValuesThird}
+                {notValidParametersFirst},
+                {notValidParametersSecond},
+                {notValidParametersThird}
         };
     }
 
     @Test
     @UseDataProvider("validResults")
-    public void shouldBuiltObjectBeCorrect(String[] values, GameConsole expectedToy) {
+    public void shouldBuiltObjectBeCorrect(String[] values, GameConsole expectedToy) throws IncorrectValueException {
         GameConsole actualToy = GAME_CONSOLE_BUILDER.createToy(values);
 
         Assert.assertEquals(expectedToy, actualToy);
@@ -100,28 +71,23 @@ public class GameConsoleBuilderTest {
 
     @Test
     @UseDataProvider("notValidResults")
-    public void shouldBuiltObjectBeNotSimilar(String[] values, GameConsole expectedToy) {
+    public void shouldBuiltObjectBeNotSimilar(String[] values, GameConsole expectedToy) throws IncorrectValueException {
         GameConsole actualToy = GAME_CONSOLE_BUILDER.createToy(values);
 
         Assert.assertNotEquals(expectedToy, actualToy);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    @UseDataProvider("incorrectValuesIllegalArgument")
-    public void shouldIncorrectValuesCauseIllegalArgumentException(String[] values) {
-        GAME_CONSOLE_BUILDER.createToy(values);
+    public void shouldIncorrectParametersCauseIllegalArgumentException() throws IncorrectValueException {
+        String[] nullArray = null;
+
+        GAME_CONSOLE_BUILDER.createToy(nullArray);
     }
 
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
-    @UseDataProvider("incorrectValuesArrayIndexOutOfBound")
-    public void shouldIncorrectValuesCauseArrayIndexOutOfBoundsException(String[] values) {
-        GAME_CONSOLE_BUILDER.createToy(values);
-    }
-
-    @Test(expected = NumberFormatException.class)
-    @UseDataProvider("incorrectValuesNumberFormat")
-    public void shouldIncorrectValuesCauseIncorrectValuesNumberFormatException(String[] values) {
-        GAME_CONSOLE_BUILDER.createToy(values);
+    @Test(expected = IncorrectValueException.class)
+    @UseDataProvider("exceptionResults")
+    public void shouldIncorrectParametersCauseIncorrectArgumentException(String[] parameters) throws IncorrectValueException {
+        GAME_CONSOLE_BUILDER.createToy(parameters);
     }
 
 }

@@ -2,9 +2,6 @@ package by.epam.gameroom.entities.toys.sport;
 
 public class BasketballSet extends SportToy {
 
-    public final static String BASKETBALLSET_TYPE = "BasketBallSet";
-    public final static int BASKETBALLSET__VALID_VALUES_COUNT = 5;
-
     private static final int BASKETBALL_REQUIRED_SPACE_TO_PLAY = 2500;
 
     private final int basketHeight;
@@ -14,14 +11,6 @@ public class BasketballSet extends SportToy {
         super(name, price, ballDiameter * basketHeight, BASKETBALL_REQUIRED_SPACE_TO_PLAY, true);
         this.ballDiameter = ballDiameter;
         this.basketHeight = basketHeight;
-    }
-
-    public int getBasketHeight() {
-        return basketHeight;
-    }
-
-    public int getBallDiameter() {
-        return ballDiameter;
     }
 
     @Override

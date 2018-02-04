@@ -9,16 +9,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static by.epam.gameroom.entities.toys.educational.Lego.LEGO_TYPE;
-import static by.epam.gameroom.entities.toys.educational.RubikCube.RUBIKCUBE_TYPE;
-import static by.epam.gameroom.entities.toys.electronic.GameConsole.GAMECONSOLE_TYPE;
-import static by.epam.gameroom.entities.toys.electronic.RadioCar.RADIOCAR_TYPE;
-import static by.epam.gameroom.entities.toys.sport.BasketballSet.BASKETBALLSET_TYPE;
-import static by.epam.gameroom.entities.toys.sport.JumpRope.JUMPROPE_TYPE;
-
 @RunWith(DataProviderRunner.class)
 public class ToyFactoryTest {
 
+    private final static String LEGO_TYPE = "Lego";
+    private final static String RUBIK_CUBE_TYPE = "RubikCube";
+    private final static String GAME_CONSOLE_TYPE = "GameConsole";
+    private final static String RADIO_CAR_TYPE = "RadioCar";
+    private final static String BASKET_BALL_SET_TYPE = "BasketBallSet";
+    private final static String JUMP_ROPE_TYPE = "JumpRope";
     private static ToyFactory toyFactory;
 
     @BeforeClass
@@ -29,12 +28,12 @@ public class ToyFactoryTest {
     @DataProvider
     public static Object[][] validResults() {
         return new Object[][]{
-                {JUMPROPE_TYPE, JumpRopeBuilder.class},
+                {JUMP_ROPE_TYPE, JumpRopeBuilder.class},
                 {LEGO_TYPE, LegoBuilder.class},
-                {GAMECONSOLE_TYPE, GameConsoleBuilder.class},
-                {RUBIKCUBE_TYPE, RubikCubeBuilder.class},
-                {RADIOCAR_TYPE, RadioCarBuilder.class},
-                {BASKETBALLSET_TYPE, BasketBallSetBuilder.class}
+                {GAME_CONSOLE_TYPE, GameConsoleBuilder.class},
+                {RUBIK_CUBE_TYPE, RubikCubeBuilder.class},
+                {RADIO_CAR_TYPE, RadioCarBuilder.class},
+                {BASKET_BALL_SET_TYPE, BasketBallSetBuilder.class}
         };
     }
 
@@ -42,11 +41,11 @@ public class ToyFactoryTest {
     public static Object[][] notValidResults() {
         return new Object[][]{
                 {LEGO_TYPE, JumpRopeBuilder.class},
-                {JUMPROPE_TYPE, LegoBuilder.class},
-                {GAMECONSOLE_TYPE, RubikCubeBuilder.class},
-                {RUBIKCUBE_TYPE, GameConsoleBuilder.class},
-                {BASKETBALLSET_TYPE, RadioCarBuilder.class},
-                {RADIOCAR_TYPE, BasketBallSetBuilder.class}
+                {JUMP_ROPE_TYPE, LegoBuilder.class},
+                {GAME_CONSOLE_TYPE, RubikCubeBuilder.class},
+                {RUBIK_CUBE_TYPE, GameConsoleBuilder.class},
+                {BASKET_BALL_SET_TYPE, RadioCarBuilder.class},
+                {RADIO_CAR_TYPE, BasketBallSetBuilder.class}
         };
     }
 

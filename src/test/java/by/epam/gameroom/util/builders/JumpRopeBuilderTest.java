@@ -1,6 +1,7 @@
 package by.epam.gameroom.util.builders;
 
 import by.epam.gameroom.entities.toys.sport.JumpRope;
+import by.epam.gameroom.exceptions.IncorrectValueException;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
@@ -48,51 +49,19 @@ public class JumpRopeBuilderTest {
     }
 
     @DataProvider
-    public static Object[][] incorrectValuesIllegalArgument() {
-        String[] notValidValuesFirst = {"type=JumpRope"};
-        String[] notValidValuesSecond = {"type=JumpRope", "price=22.5", "numLength=3", "numWeight=5"};
-        String[] notValidValuesThird = {"type=JumpRope", "price=25.5", ""};
-        String[] nullArray = null;
-        String[] emptyArray = {};
+    public static Object[][] exceptionResults() {
+        String[] notValidParametersFirst = {"type=JumpRope", "price=-20.5", "numLength=2"};
+        String[] notValidParametersSecond = {"type=JumpRope", "price=20.5", "numLength=Two"};
 
         return new Object[][]{
-                {notValidValuesFirst},
-                {notValidValuesSecond},
-                {notValidValuesThird},
-                {nullArray},
-                {emptyArray}
-        };
-    }
-
-    @DataProvider
-    public static Object[][] incorrectValuesArrayIndexOutOfBound() {
-        String[] notValidValuesFirst = {"type=JumpRope", "price20.5", "numLength=2"};
-        String[] notValidValuesSecond = {"type=JumpRope", "price=22.5", "i"};
-        String[] notValidValuesThird = {"type=JumpRope", "price=25.5", "numLength5"};
-
-        return new Object[][]{
-                {notValidValuesFirst},
-                {notValidValuesSecond},
-                {notValidValuesThird}
-        };
-    }
-
-    @DataProvider
-    public static Object[][] incorrectValuesNumberFormat() {
-        String[] notValidValuesFirst = {"type=JumpRope", "price=20O.5", "numLength=2"};
-        String[] notValidValuesSecond = {"type=JumpRope", "price=22.5", "numLength=.02"};
-        String[] notValidValuesThird = {"type=JumpRope", "price=2.2.5", "numLength=5"};
-
-        return new Object[][]{
-                {notValidValuesFirst},
-                {notValidValuesSecond},
-                {notValidValuesThird}
+                {notValidParametersFirst},
+                {notValidParametersSecond}
         };
     }
 
     @Test
     @UseDataProvider("validResults")
-    public void shouldBuiltObjectBeCorrect(String[] values, JumpRope expectedToy) {
+    public void shouldBuiltObjectBeCorrect(String[] values, JumpRope expectedToy) throws IncorrectValueException {
         JumpRope actualToy = JUMP_ROPE_BUILDER.createToy(values);
 
         Assert.assertEquals(expectedToy, actualToy);
@@ -100,28 +69,23 @@ public class JumpRopeBuilderTest {
 
     @Test
     @UseDataProvider("notValidResults")
-    public void shouldBuiltObjectBeNotSimilar(String[] values, JumpRope expectedToy) {
+    public void shouldBuiltObjectBeNotSimilar(String[] values, JumpRope expectedToy) throws IncorrectValueException {
         JumpRope actualToy = JUMP_ROPE_BUILDER.createToy(values);
 
         Assert.assertNotEquals(expectedToy, actualToy);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    @UseDataProvider("incorrectValuesIllegalArgument")
-    public void shouldIncorrectValuesCauseIllegalArgumentException(String[] values) {
-        JUMP_ROPE_BUILDER.createToy(values);
+    public void shouldIncorrectValueCauseIllegalArgumentException() throws IncorrectValueException {
+        String[] nullArray = null;
+
+        JUMP_ROPE_BUILDER.createToy(nullArray);
     }
 
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
-    @UseDataProvider("incorrectValuesArrayIndexOutOfBound")
-    public void shouldIncorrectValuesCauseArrayIndexOutOfBoundsException(String[] values) {
-        JUMP_ROPE_BUILDER.createToy(values);
-    }
-
-    @Test(expected = NumberFormatException.class)
-    @UseDataProvider("incorrectValuesNumberFormat")
-    public void shouldIncorrectValuesCauseIncorrectValuesNumberFormatException(String[] values) {
-        JUMP_ROPE_BUILDER.createToy(values);
+    @Test(expected = IncorrectValueException.class)
+    @UseDataProvider("exceptionResults")
+    public void shouldIncorrectParametersCauseIncorrectArgumentException(String[] parameters) throws IncorrectValueException {
+        JUMP_ROPE_BUILDER.createToy(parameters);
     }
 
 }

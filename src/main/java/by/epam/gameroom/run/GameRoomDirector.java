@@ -3,11 +3,14 @@ package by.epam.gameroom.run;
 import by.epam.gameroom.entities.GameRoom;
 import by.epam.gameroom.entities.toys.Toy;
 import by.epam.gameroom.exceptions.DataLoadException;
+import by.epam.gameroom.exceptions.GameRoomCreationException;
+import by.epam.gameroom.exceptions.IncorrectValueException;
+import by.epam.gameroom.util.Calculator;
 import by.epam.gameroom.util.LineParser;
 import by.epam.gameroom.util.builders.ToyBuilder;
 import by.epam.gameroom.util.builders.ToyFactory;
+import by.epam.gameroom.util.builders.ToyParametersProvider;
 import by.epam.gameroom.util.data.DataFileLoader;
-import by.epam.gameroom.util.data.DataValidator;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -17,79 +20,76 @@ public class GameRoomDirector {
 
     private final static Logger LOGGER = Logger.getLogger(GameRoomDirector.class);
     private final static String FILE_NAME = "./src/main/resources/data.txt";
-    private final static int TYPE_VALUE_INDEX = 0;
-    private final static int TYPE_PARAMETER_INDEX = 1;
+    private final static int TYPE_PARAMETER_INDEX = 0;
 
-    private List<Toy> getToysFromFile(String fileName){
-        if (fileName == null || fileName.isEmpty()) {
-            throw new IllegalArgumentException("Check file name.");
+    public GameRoom createGameRoom(String name, double area, double availableMoney) throws GameRoomCreationException {
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Check input game room name.");
+        }
+        if (area <= 0) {
+            throw new IllegalArgumentException("Check input game room area.");
+        }
+        if (availableMoney <= 0) {
+            throw new IllegalArgumentException("Check input game room available money.");
         }
 
-        LOGGER.info(String.format("Try to load data from file - %s.",fileName));
+        LOGGER.info(String.format("Try to create game room - %s.", name));
 
-        DataFileLoader dataFileLoader = new DataFileLoader();
+        List<Toy> toys = getToysFromFile(area, availableMoney);
+
+        if (toys == null){
+            throw new GameRoomCreationException("Game room wasn't created. Cause: toys weren't loaded.");
+        }
+
+        GameRoom gameRoom = new GameRoom(toys, area, name);
+
+        LOGGER.info("Room was created successful.");
+
+        return gameRoom;
+    }
+
+    private List<Toy> getToysFromFile(double area, double availableMoney) {
         List<Toy> toys = new ArrayList<>();
+        DataFileLoader dataFileLoader = new DataFileLoader();
         List<String> data = null;
+        LOGGER.info(String.format("Try to load data from file - %s.", FILE_NAME));
+
         try {
-           data = dataFileLoader.loadDataFromFile(fileName);
+            data = dataFileLoader.loadDataFromFile(FILE_NAME);
         } catch (DataLoadException e) {
             LOGGER.warn(e);
-        }
-
-        if (data == null){
-            LOGGER.info("Data was loaded incorrect.");
             return null;
-        } else {
-            LOGGER.info("Data was loaded successful");
         }
 
-        for (String line : data) {
-            LOGGER.info(String.format("Try to create toy from line - %s.",line));
+        LOGGER.info("Data was loaded successful.");
 
-            Toy toy = getToyFromLine(line);
+        for (String parameters : data) {
+            LOGGER.info(String.format("Try to create toy from parameters - %s.", parameters));
 
-            if (toy == null){
-                LOGGER.info(String.format("Toy can't be created from line -%s.", line));
-            } else {
+            ToyParametersProvider toyParametersProvider = new ToyParametersProvider();
+            ToyFactory toyFactory = new ToyFactory();
+            String[] parsedParameters = LineParser.parseLine(parameters, LineParser.DATA_PARSER_INDICATOR);
+
+            try {
+                String type = toyParametersProvider.getStringParameter(parsedParameters, TYPE_PARAMETER_INDEX);
+                ToyBuilder toyBuilder = toyFactory.getToyBuilder(type);
+                Toy toy = toyBuilder.createToy(parsedParameters);
+
                 LOGGER.info(String.format("Toy was created successful - %s.", toy.toString()));
 
+                double toyPrice = toy.getPrice();
+                availableMoney = Calculator.calculate(availableMoney, toyPrice);
+
+                double toySize = toy.getSize();
+                area = Calculator.calculate(area, toySize);
+
                 toys.add(toy);
+            } catch (IncorrectValueException | IllegalArgumentException exception) {
+                LOGGER.warn(exception);
             }
         }
 
         return toys;
-    }
-
-    private Toy getToyFromLine(String line){
-        DataValidator dataValidator = new DataValidator();
-
-        String[] parsedValues = LineParser.parseLine(line,LineParser.DATA_PARSER_INDICATOR);
-
-        boolean isValuesValid = dataValidator.checkValues(parsedValues);
-
-        if (!isValuesValid){
-            return null;
-        }
-
-        String typeValue = parsedValues[TYPE_VALUE_INDEX];
-        String[] parsedTypeValue = LineParser.parseLine(typeValue,LineParser.VALUE_PARSER_INDICATOR);
-        String type = parsedTypeValue[TYPE_PARAMETER_INDEX];
-        ToyFactory toyFactory = new ToyFactory();
-        ToyBuilder toyBuilder = toyFactory.getToyBuilder(type);
-
-        Toy toy = toyBuilder.createToy(parsedValues);
-
-        return toy;
-    }
-
-    public GameRoom buildGameRoom(){
-        String roomName = "Laplandia";
-        int area = 40000;
-        List<Toy> toys = getToysFromFile(FILE_NAME);
-
-        GameRoom gameRoom = new GameRoom(toys,area,roomName);
-
-        return gameRoom;
     }
 
 }

@@ -3,7 +3,7 @@ package by.epam.gameroom.util;
 public class LineParser {
 
     public static final String DATA_PARSER_INDICATOR = " ";
-    public static final String VALUE_PARSER_INDICATOR = "=";
+    public static final String PARAMETER_PARSER_INDICATOR = "=";
 
     public static String[] parseLine(String line, String parserIndicator) {
         if (line == null || line.isEmpty()) {
